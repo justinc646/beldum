@@ -48,7 +48,6 @@ const T = new Twit(credentials);
 function step() {
 	const date = new Date();
 	const now = Date.now();
-	console.log(dst());
 	if (date.getUTCHours() == config.hour - dst() && date.getUTCMinutes() < config.offset) {
 		T.post('statuses/update', { status: format(config.message1, { count: Math.floor(now / 86400000) - config.offset }) })
 			.catch(err => console.error(err))
@@ -70,5 +69,4 @@ function step() {
 		});
 }
 
-// setInterval(step, config.step_count);
-step();
+setInterval(step, config.step_count);
