@@ -1,0 +1,26 @@
+{
+  "name": "beldum",
+  "version": "1.0.0",
+  "description": "Test Twitter bot",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/justinc646/beldum.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/justinc646/beldum/issues"
+  },
+  "homepage": "https://github.com/justinc646/beldum#readme",
+  "dependencies": {
+    "moment": "^2.29.1",
+    "twit": "^2.2.11"
+  },
+  "devDependencies": {
+    "eslint": "^7.16.0"
+  }
+}
