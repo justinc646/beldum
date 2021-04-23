@@ -25,6 +25,8 @@ if (process.env._ == '/app/.heroku/node/bin/npm') {
 }
 
 const DATE_FORMAT = 'dd MMM DD HH:mm:ss ZZ YYYY';
+// step_count is in milliseconds
+const STEP_MINUTES = config.step_count / 60000;
 
 // Stolen from https://stackoverflow.com/questions/11887934/how-to-check-if-dst-daylight-saving-time-is-in-effect-and-if-so-the-offset/11888430#11888430
 function getStdTimezoneOffset(d) {
@@ -48,7 +50,8 @@ const T = new Twit(credentials);
 function step() {
 	const date = new Date();
 	const now = Date.now();
-	if (date.getUTCHours() == config.hour - dst() && date.getUTCMinutes() < config.offset) {
+	console.log('running step at ' + moment().format(moment.ISO_8601));
+	if (date.getUTCHours() == config.hour - dst() && date.getUTCMinutes() < STEP_MINUTES) {
 		T.post('statuses/update', { status: format(config.message1, { count: Math.floor(now / 86400000) - config.offset }) })
 			.catch(err => console.error(err))
 			.then(res => console.log(`Tweeted at ${res.data.created_at}: ${res.data.text}`));
@@ -69,4 +72,12 @@ function step() {
 		});
 }
 
-setInterval(step, config.step_count);
+function start() {
+	setInterval(step, config.step_count);
+	step();
+	console.log('starting step at ' + moment().format(moment.ISO_8601));
+}
+
+const time = moment();
+const nextStep = moment().startOf('hour').minute(time.minutes() + STEP_MINUTES - time.minutes() % STEP_MINUTES).second(1);
+setTimeout(start, nextStep.valueOf() - time.valueOf());
