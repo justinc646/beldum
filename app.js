@@ -62,7 +62,7 @@ function step() {
 				.filter(t => moment(t.created_at, DATE_FORMAT).toDate().valueOf() > now - config.step_count)
 				.forEach(tweet => {
 					T.post('statuses/update', {
-						in_reply_to_status_id: tweet.id_str,
+						in_reply_to_status_id: tweet.id,
 						status: '@' + tweet.user.screen_name + ' ' + config.message2,
 					})
 						.catch(error => console.error(error))
