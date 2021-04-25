@@ -63,8 +63,7 @@ function step() {
 				.forEach(tweet => {
 					T.post('statuses/update', {
 						in_reply_to_status_id: tweet.id_str,
-						username: '@' + tweet.user.screen_name,
-						status: config.message2,
+						status: '@' + tweet.user.screen_name + ' ' + config.message2,
 					})
 						.catch(error => console.error(error))
 						.then(resp => console.log(`Tweeted at ${resp.data.created_at}: ${resp.data.text}`));
