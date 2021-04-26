@@ -61,8 +61,9 @@ function step() {
 			res.data.statuses
 				.filter(t => moment(t.created_at, DATE_FORMAT).toDate().valueOf() > now - config.step_count)
 				.forEach(tweet => {
+					console.log('Found Tweet: id=' + tweet.id + ', id_str=' + tweet.id_str + ', text=' + tweet.text + ', created_at=' + tweet.created_at);
 					T.post('statuses/update', {
-						in_reply_to_status_id: tweet.id,
+						in_reply_to_status_id: tweet.id_str,
 						status: '@' + tweet.user.screen_name + ' ' + config.message2,
 					})
 						.catch(error => console.error(error))
